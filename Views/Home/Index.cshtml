@@ -2,26 +2,47 @@
     ViewData["Title"] = "Home Page";
 }
 
-@model List<Bowler>
+@model BowlerViewModel
 
-<h1>Bowlers</h1>
-    @*<table class="table table-sm table bordered table-hover"></table>
-        <thead>
-            <tr>
-                <th>Bowler ID</th>
-                <th
-            </tr>
-        </thead>*@
 
-<ul>
-    @foreach (var b in Model)
-    {
-        <li>@b.BowlerID</li>
-        <li>@b.BowlerFirstName @b.BowlerMiddleInit. @b.BowlerLastName</li>
-        <li>@b.BowlerAddress</li>
-        <li>@b.BowlerCity</li>
-        <li>@b.BowlerState</li>
-        <li>@b.BowlerZip</li>
-        <li>@b.BowlerPhoneNumber</li>
-    }
-</ul>
+<table class="table table-sm table-bordered table-hover">
+    <thead>
+        <tr>
+
+            <th>Bowler ID: </th>
+            <th>Bowler Name: </th>
+            <th>Address: </th>
+            <th>City: </th>
+            <th>State: </th>
+            <th>Zip Code: </th>
+            <th>Phone Number: </th>
+            <th>Add</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Bowler b in ViewBag.Bowlers)
+        {
+        <tr>
+            <td>@b.BowlerID</td>
+            <td>@b.BowlerFirstName @b.BowlerMiddleInit. @b.BowlerLastName</td>
+            <td>@b.BowlerAddress</td>
+            <td>@b.BowlerCity</td>
+            <td>@b.BowlerState</td>
+            <td>@b.BowlerZip</td>
+            <td>@b.BowlerPhoneNumber</td>
+            <td><a asp-controller="Home" asp-action="Add" class="btn btn-sm btn-warning btn-block" asp-route-id="@b.BowlerID">Add</a></td>
+            <td><a asp-controller="Home" asp-action="Edit" class="btn btn-sm btn-warning btn-block" asp-route-id="@b.BowlerID">Edit</a></td>
+            <td><a asp-controller="Home" asp-action="Delete" class="btn btn-sm btn-danger btn-block" asp-route-id="@b.BowlerID">Delete</a></td>
+        </tr>
+        }
+
+    </tbody>
+
+</table>
+
+
+
+
+

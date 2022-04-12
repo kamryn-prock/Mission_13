@@ -19,14 +19,62 @@ namespace MySqlFun.Controllers
             _repo = temp;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int teamid)
         {
             //create dataset
-            var blah = _repo.Bowlers
+            ViewBag.Bowlers = _repo.Bowlers
+                //.Where(b => b.TeamID == teamid || teamid == null)
                 .ToList();
                 
 
-            return View(blah);
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Add()
+        {
+            ViewBag.TeamId = _repo.Bowlers.Select(x => x.TeamID).Distinct().OrderBy(x => x).ToList();
+
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Add(Bowler b)
+        {
+
+            _repo.Add(b);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            //ViewBag.Team = _repo.Bowlers.OrderBy(x => x.Team).Select(x => x.Team).Distinct().ToList();
+            var bowler = _repo.Bowlers.Single(x => x.BowlerID == id);
+            return View("Add", bowler);
+        }
+        [HttpPost]
+        public IActionResult Edit(Bowler b)
+        {
+            _repo.Update(b);
+
+            return RedirectToAction("Index");
+
+        }
+       
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var bowler = _repo.Bowlers.Single(x => x.BowlerID == id);
+            return View("Delete", bowler);
+
+        }
+
+
+        [HttpPost]
+        public IActionResult Delete(Bowler d)
+        {
+            _repo.Delete(d);
+            return RedirectToAction("Index");
         }
 
     }
